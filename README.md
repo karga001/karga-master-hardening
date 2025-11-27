@@ -4,7 +4,7 @@ Bu script kurumsal (enterprise) tehdit modellerini hedeflemez; Debian 13 stable 
 Bu script sistemi gereksiz şişirmeden, boş laf üretmeden net şekilde sıkılaştırır.
 Amaç: saldırganın işini zorlaştırmak, açık kapıları kapatmak, zayıf noktaları minimuma indirmek.
 Script şunları yapar:
-    • Ağ, DNS, firewall, USB, sandbox ve çekirdek tarafında katı kurallar uygular
+    * Ağ, DNS, firewall, USB, sandbox ve çekirdek tarafında katı kurallar uygular
     • Sistem servislerini, izinlerini ve kernel parametrelerini daha güvenli hâle getirir
     • Gereksiz servisleri kapatır, gereksiz riskleri temizler
     • Tarayıcıyı ve uygulamaları firejail + apparmor ile ayrı kafeslere alır
