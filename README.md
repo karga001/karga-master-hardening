@@ -1,4 +1,4 @@
-# master_hardening
+# karga-master-hardening
 
 Bu script kurumsal (enterprise) tehdit modellerini hedeflemez; Debian 13 stable üzerinde günlük kullanım için optimize edilmiştir.
 
