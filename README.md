@@ -106,4 +106,43 @@ Bu script kurumsal (enterprise) tehdit modellerini hedeflemez; Debian 13 stable 
 * Bellek içi dosya sisteminden exploit çalıştırmayı zorlaştırır.
 * Birçok tarayıcı exploit zinciri burada patlar.
 * Önemli dosyalara izin sıkılaştırması uygulanır
-*SUID, world-writable gibi saçmalıklar temizlenir.
+* SUID, world-writable gibi saçmalıklar temizlenir.
+
+* Kullanım:
+* git clone https://github.com/karga001/karga-master-hardening.git
+* cd karga-master-hardening/
+* chmod +x karga-master-hardening.sh
+* sudo ./karga-master-hardening.sh
+
+* Kalıcı yapmak için:
+* sudo nano /etc/systemd/system/hardening.service
+* içine yapıştırın:
+* [Unit]
+Description=Karga Hardening 
+After=network.target local-fs.target
+Wants=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/KULLANICIADI/karga-master-hardening/karga-master_hardening.sh
+RemainAfterExit=yes
+User=root
+
+# Güvenlik ayarları
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+PrivateTmp=yes
+NoNewPrivileges=yes
+CapabilityBoundingSet=CAP_SYS_ADMIN CAP_SYS_CHROOT CAP_NET_ADMIN CAP_NET_RAW CAP_SYS_PTRACE
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target
+
+* systemctl daemon-reload
+* systemctl enable hardening.service
+* systemctl start hardening.service
+
