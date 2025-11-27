@@ -42,68 +42,68 @@ Kısaca ortalama saldırgan bu sisteme dokunamaz.
 Bu script güçlü, evet.
 Ama fiziksel kuralları, insan kaynaklı salaklık düzeyi(sosyal mühendislik ve bilinmeyen içeriğe yetki verme) ve 0‑day piyasasını yenemez.
 Bu hardening ile içeri giremeyenler:
-    • Script‑kiddie çöplüğü
-    • Discord/YouTube hırdavatçıları
-    • Otomatik botlar
-    • Kopyala‑yapıştır exploitçiler
-    • “Port taradım açık yok mu” 
-    • USB/Payload denemecileri
-    • Tarayıcı exploit’inden shell bekleyenler
-    • Ele geçirme umuduyla mass‑scan yapan kitle
+    * Script‑kiddie çöplüğü
+    * Discord/YouTube hırdavatçıları
+    * Otomatik botlar
+    * Kopyala‑yapıştır exploitçiler
+    * “Port taradım açık yok mu” 
+    * USB/Payload denemecileri
+    * Tarayıcı exploit’inden shell bekleyenler
+    * Ele geçirme umuduyla mass‑scan yapan kitle
 Bu hardening ile zorlananlar:
-    • Deneyimli bireysel saldırganlar
-    • Linux privilege‑escalation uzmanları
-    • Network pivot ve yan servis kovalayanlar
+    * Deneyimli bireysel saldırganlar
+    * Linux privilege‑escalation uzmanları
+    * Network pivot ve yan servis kovalayanlar
 Bu hardening’i aşabilecek tek grup:
-    • APT düzeyi, özel exploit geliştiren gerçek profesyoneller
-    • Fiziksel erişimi olan ekipler
+    * APT düzeyi, özel exploit geliştiren gerçek profesyoneller
+    * Fiziksel erişimi olan ekipler
 Bu script bu seviyeye karşı “tam koruma” iddiasında olmaz — kimse olamaz.
 Ama saldırı yüzeyini daraltır, açıklarını azaltır, eşiği yükseltir.
 
 
 
-6) Hangi araçları kullanıyor?
+7) Hangi araçları kullanıyor?
 Bu script sistemde zaten bulunan mekanizmaları sonuna kadar kullanıyor, dışarıdan çöplük taşımıyor.
 Kullanılan araçlar:
-    • UFW → basit ama etkili firewall
-    • AppArmor → çekirdek seviyesinde confinement
-    • Firejail → uygulama sandbox’ı
-    • USBGuard → USB saldırılarına karşı kontrol katmanı
-    • macchanger → MAC rastgeleleştirme
-    • TLP → pil/enerji optimizasyonu (gereksiz güç tüketimi = gereksiz saldırı yüzeyi)
-    • Powertop → derin enerji ayarı (agresif modda)
-    • sysctl → ağ, kernel ve hafıza tarafında sıkı parametreler
-    • systemd → gereksiz servis kapatma / temizleme
-    • dns ayarları → güvenli resolver, sızıntı engelleme
+    * UFW → basit ama etkili firewall
+    * AppArmor → çekirdek seviyesinde confinement
+    * Firejail → uygulama sandbox’ı
+    * USBGuard → USB saldırılarına karşı kontrol katmanı
+    * macchanger → MAC rastgeleleştirme
+    * TLP → pil/enerji optimizasyonu (gereksiz güç tüketimi = gereksiz saldırı yüzeyi)
+    * Powertop → derin enerji ayarı (agresif modda)
+    * sysctl → ağ, kernel ve hafıza tarafında sıkı parametreler
+    * systemd → gereksiz servis kapatma / temizleme
+    * dns ayarları → güvenli resolver, sızıntı engelleme
 
-7) Script tam olarak ne yapıyor?
-• MAC adreslerini rastgeleleştirir
+8) Script tam olarak ne yapıyor?
+* MAC adreslerini rastgeleleştirir
 Kimlik izi çıkarmayı zorlaştırır.
 Ağ tarafında iz sürmeyi ciddi anlamda baltalar.
-• DNS’i güvenli moda çeker
+*DNS’i güvenli moda çeker
 DNS sızıntılarını keser, takip ve yönlendirme saldırılarını zorlaştırır.
-• UFW firewall’ı kapı duvarına çevirir
+* UFW firewall’ı kapı duvarına çevirir
 Gelen her şey engellenir, sadece çıkış izni kalır.
 İçeriye doğru açık port = sıfır.
-• AppArmor’u aktif edip profilleri devreye alır
+* AppArmor’u aktif edip profilleri devreye alır
 Tarayıcı ve kritik uygulamalar kernel seviyesinde çitlenir.
 Exploit gelse bile hareket alanı dardır.
-• Firejail ile tarayıcı ve hassas uygulamalar sandbox’a alınır
+* Firejail ile tarayıcı ve hassas uygulamalar sandbox’a alınır
 Dosya sistemine, ağ kaynaklarına ve proseslere erişim kesilir.
 Saldırgan tarayıcıdan çıkamaz.
-• USBGuard ile USB cihazları kontrol altına alınır
+* USBGuard ile USB cihazları kontrol altına alınır
 HID injection, BadUSB, klavye/mouse taklidi yapan cihazlar bloklanır.
-• Kernel ve sysctl parametrelerini sertleştirir
+* Kernel ve sysctl parametrelerini sertleştirir
 Ağ güvenliği, bellek rastgeleliği, TCP stack davranışı, spoofing önlemleri…
 Linux’un defolt ayarındaki çoğu gevşek nokta kapanır.
-• Gereksiz servisler kapatılır
+* Gereksiz servisler kapatılır
 Arka planda duran, işlevi olmayan, ama saldırı yüzeyi açan ne varsa gömülür.
-• Pil ve güç ayarları optimize edilir
+* Pil ve güç ayarları optimize edilir
 Gereksiz donanım aktiviteleri azalır → saldırı yüzeyi küçülür → stabilite artar.
-• Disk tarafındaki bazı enerji/erişim parametreleri sıkılaştırılır
+* Disk tarafındaki bazı enerji/erişim parametreleri sıkılaştırılır
 Arka plan disk I/O davranışlarını iyileştirir.
-• /tmp, /var/tmp, /dev/shm için noexec/nosuid uygulanır
+* /tmp, /var/tmp, /dev/shm için noexec/nosuid uygulanır
 Bellek içi dosya sisteminden exploit çalıştırmayı zorlaştırır.
 Birçok tarayıcı exploit zinciri burada patlar.
-• Önemli dosyalara izin sıkılaştırması uygulanır
+* Önemli dosyalara izin sıkılaştırması uygulanır
 SUID, world-writable gibi saçmalıklar temizlenir.
