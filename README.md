@@ -128,7 +128,6 @@ ExecStart=/home/KULLANICIADI/karga-master-hardening/karga-master_hardening.sh
 RemainAfterExit=yes
 User=root
 
-# Güvenlik ayarları
 ProtectSystem=strict
 ProtectKernelTunables=yes
 ProtectKernelModules=yes
