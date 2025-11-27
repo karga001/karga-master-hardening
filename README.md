@@ -1,5 +1,3 @@
-# karga-master-hardening
-
 Bu script kurumsal (enterprise) tehdit modellerini hedeflemez; Debian 13 stable üzerinde günlük kullanım için optimize edilmiştir.
 
 1) Bu script ne iş yapıyor?
