@@ -15,7 +15,7 @@ Script şunları yapar:
     • Saldırı yüzeyini küçültür, gereksiz açık kapıları kapatır
     • Günlük kullanımda fark edilmeyen ama kritik olan zayıflıkları otomatik kapatır
 Özet: Bu script saldırıyı imkânsız yapmaz; uğraştırır, zaman kaybettirir, bazı noktalarda saf dışı bırakır.
-2) Kime karşı etkili?
+3) Kime karşı etkili?
 Bu script bir anda “devlet seviyesi koruma” vermez ama günlük hayatta karşılaşacağın saldırganların %90’ını boğar.
 Durdurduğu profil:
     • Hazır exploit arayan, tool çalıştırıp şans deneyen, nmap/naabu/nessus tarayıp açık kovalayanlar
@@ -28,7 +28,7 @@ Durdurduğu profil:
     • Ağ üzerinden “ufak tefek paket oyunları” ile içeri sızacağını düşünenler
 Bu düzeydeki herkesin önünü keser.
 
-3) Engelleyebildiği/zorlaştırdığı saldırılar
+4) Engelleyebildiği/zorlaştırdığı saldırılar
 Scriptin tam olarak kestiği veya ciddi şekilde zorlaştırdığı şeyler:
     • Tarayıcı istismarından sonra sistem içine yayılma girişimleri
     • MAC, DNS, fingerprinting ile kimlik izi çıkarma denemeleri
@@ -40,7 +40,7 @@ Scriptin tam olarak kestiği veya ciddi şekilde zorlaştırdığı şeyler:
     • Firejail/AppArmor bypass denemelerinin büyük kısmı
 Kısaca ortalama saldırgan bu sisteme dokunamaz.
 
-4) Kimler hâlâ sızabilir?
+5) Kimler hâlâ sızabilir?
 Bu script güçlü, evet.
 Ama fiziksel kuralları, insan kaynaklı salaklık düzeyi(sosyal mühendislik ve bilinmeyen içeriğe yetki verme) ve 0‑day piyasasını yenemez.
 Bu hardening ile içeri giremeyenler:
@@ -64,7 +64,7 @@ Ama saldırı yüzeyini daraltır, açıklarını azaltır, eşiği yükseltir.
 
 
 
-5) Hangi araçları kullanıyor?
+6) Hangi araçları kullanıyor?
 Bu script sistemde zaten bulunan mekanizmaları sonuna kadar kullanıyor, dışarıdan çöplük taşımıyor.
 Kullanılan araçlar:
     • UFW → basit ama etkili firewall
@@ -78,7 +78,7 @@ Kullanılan araçlar:
     • systemd → gereksiz servis kapatma / temizleme
     • dns ayarları → güvenli resolver, sızıntı engelleme
 
-6) Script tam olarak ne yapıyor?
+7) Script tam olarak ne yapıyor?
 • MAC adreslerini rastgeleleştirir
 Kimlik izi çıkarmayı zorlaştırır.
 Ağ tarafında iz sürmeyi ciddi anlamda baltalar.
