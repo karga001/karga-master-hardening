@@ -1,11 +1,11 @@
 Bu script kurumsal (enterprise) tehdit modellerini hedeflemez; Debian 13 stable üzerinde günlük kullanım için optimize edilmiştir.
-1) Bu script ne iş yapıyor?
+# 1) Bu script ne iş yapıyor?
 
 Bu script sistemi gereksiz şişirmeden, boş laf üretmeden net şekilde sıkılaştırır.
 
 Amaç: saldırganın işini zorlaştırmak, açık kapıları kapatmak, zayıf noktaları minimuma indirmek.
 
-Script şunları yapar:
+# 2)Script şunları yapar:
 
 Ağ, DNS, firewall, USB, sandbox ve çekirdek tarafında katı kurallar uygular
 
@@ -25,7 +25,7 @@ Günlük kullanımda fark edilmeyen ama kritik olan zayıflıkları otomatik kap
 
 Özet: Bu script saldırıyı imkânsız yapmaz; uğraştırır, zaman kaybettirir, bazı noktalarda saf dışı bırakır.
 
-3) Kime karşı etkili?
+# 3) Kime karşı etkili?
 
 Bu script bir anda “devlet seviyesi koruma” vermez ama günlük hayatta karşılaşacağın saldırganların %90’ını boğar.
 
@@ -49,7 +49,7 @@ Ağ üzerinden “ufak tefek paket oyunları” ile içeri sızacağını düş�
 
 Bu düzeydeki herkesin önünü keser.
 
-4) Engelleyebildiği/zorlaştırdığı saldırılar
+# 4) Engelleyebildiği/zorlaştırdığı saldırılar
 
 Scriptin tam olarak kestiği veya ciddi şekilde zorlaştırdığı şeyler:
 
@@ -71,7 +71,7 @@ Firejail/AppArmor bypass denemelerinin büyük kısmı
 
 Kısaca ortalama saldırgan bu sisteme dokunamaz.
 
-5) Kimler hâlâ sızabilir?
+# 5) Kimler hâlâ sızabilir?
 
 Bu script güçlü, evet.
 
@@ -113,7 +113,7 @@ Bu script bu seviyeye karşı “tam koruma” iddiasında olmaz — kimse olama
 
 Ama saldırı yüzeyini daraltır, açıklarını azaltır, eşiği yükseltir.
 
-7) Hangi araçları kullanıyor?
+# 7) Hangi araçları kullanıyor?
 
 Bu script sistemde zaten bulunan mekanizmaları sonuna kadar kullanıyor, dışarıdan çöplük taşımıyor.
 
@@ -139,7 +139,7 @@ systemd → gereksiz servis kapatma / temizleme
 
 dns ayarları → güvenli resolver, sızıntı engelleme
 
-8) Script tam olarak ne yapıyor?
+# 8) Script tam olarak ne yapıyor?
 
 MAC adreslerini rastgeleleştirir
 
@@ -201,17 +201,17 @@ Birçok tarayıcı exploit zinciri burada patlar.
 
 SUID, world-writable gibi saçmalıklar temizlenir.
 
-Kullanım:
+# Kullanım:
 git clone https://github.com/karga001/karga-master-hardening.git
 cd karga-master-hardening/
 chmod +x karga-master-hardening.sh
 sudo ./karga-master-hardening.sh
 
-Kalıcı yapmak için:
+# Kalıcı yapmak için:
 sudo nano /etc/systemd/system/hardening.service
 
 
-içine yapıştırın:
+# İçine yapıştırın:
 
 [Unit]
 Description=Karga Hardening 
