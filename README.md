@@ -5,7 +5,7 @@ Bu script sistemi gereksiz şişirmeden, boş laf üretmeden net şekilde sıkı
 
 Amaç: saldırganın işini zorlaştırmak, açık kapıları kapatmak, zayıf noktaları minimuma indirmek.
 
-# 2)Script şunları yapar:
+# 2) Script şunları yapar:
 
 Ağ, DNS, firewall, USB, sandbox ve çekirdek tarafında katı kurallar uygular
 
@@ -113,7 +113,7 @@ Bu script bu seviyeye karşı “tam koruma” iddiasında olmaz — kimse olama
 
 Ama saldırı yüzeyini daraltır, açıklarını azaltır, eşiği yükseltir.
 
-# 7) Hangi araçları kullanıyor?
+# 6) Hangi araçları kullanıyor?
 
 Bu script sistemde zaten bulunan mekanizmaları sonuna kadar kullanıyor, dışarıdan çöplük taşımıyor.
 
@@ -139,7 +139,7 @@ systemd → gereksiz servis kapatma / temizleme
 
 dns ayarları → güvenli resolver, sızıntı engelleme
 
-# 8) Script tam olarak ne yapıyor?
+# 7) Script tam olarak ne yapıyor?
 
 MAC adreslerini rastgeleleştirir
 
@@ -202,17 +202,19 @@ Birçok tarayıcı exploit zinciri burada patlar.
 SUID, world-writable gibi saçmalıklar temizlenir.
 
 # Kullanım:
+```
 git clone https://github.com/karga001/karga-master-hardening.git
 cd karga-master-hardening/
 chmod +x karga-master-hardening.sh
 sudo ./karga-master-hardening.sh
-
+```
 # Kalıcı yapmak için:
+```
 sudo nano /etc/systemd/system/hardening.service
-
+```
 
 # İçine yapıştırın:
-
+```
 [Unit]
 Description=Karga Hardening 
 After=network.target local-fs.target
@@ -225,7 +227,10 @@ RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
-
+```
+# Etkilneştirmek için:
+```
 systemctl daemon-reload
 systemctl enable hardening.service
 systemctl start hardening.service
+```
