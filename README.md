@@ -1,205 +1,165 @@
 Bu script kurumsal (enterprise) tehdit modellerini hedeflemez; Debian 13 stable üzerinde günlük kullanım için optimize edilmiştir.
-# 1) Bu script ne iş yapıyor?
 
-Bu script sistemi gereksiz şişirmeden, boş laf üretmeden net şekilde sıkılaştırır.
+## 1) Bu script ne iş yapıyor?
 
-Amaç: saldırganın işini zorlaştırmak, açık kapıları kapatmak, zayıf noktaları minimuma indirmek.
+Bu script, sistemi gereksiz bileşenlerle şişirmeden, doğrudan güvenlik odaklı olacak şekilde hardening uygular.
 
-# 2) Script şunları yapar:
+Amaç; saldırı yüzeyini küçültmek, zayıf noktaları kapatmak ve olası bir saldırı durumunda saldırganın ilerlemesini zorlaştırmak, yavaşlatmak ve bazı senaryolarda tamamen engellemektir.
 
-Ağ, DNS, firewall, USB, sandbox ve çekirdek tarafında katı kurallar uygular
+## 2) Script şunları yapar:
 
-Sistem servislerini, izinlerini ve kernel parametrelerini daha güvenli hâle getirir
+Ağ, DNS, firewall, USB, sandbox ve kernel seviyesinde katı güvenlik kuralları uygular
 
-Gereksiz servisleri kapatır, gereksiz riskleri temizler
+Sistem servislerini, dosya izinlerini ve kernel parametrelerini daha güvenli hâle getirir
 
-Tarayıcıyı ve uygulamaları firejail + apparmor ile ayrı kafeslere alır
+Gereksiz servisleri devre dışı bırakır ve potansiyel riskleri temizler
 
-MAC, DNS, network fingerprinting gibi iz bırakabilecek noktaları törpüler
+Tarayıcı ve kritik uygulamaları Firejail + AppArmor ile izole eder
 
-Exploit geldiğinde zararın yayılmasını sınırlar
+MAC adresi, DNS ve network fingerprinting gibi iz bırakabilecek yüzeyleri azaltır
 
-Saldırı yüzeyini küçültür, gereksiz açık kapıları kapatır
+Olası bir exploit sonrası zararın sistem geneline yayılmasını sınırlar
 
-Günlük kullanımda fark edilmeyen ama kritik olan zayıflıkları otomatik kapatır
+Saldırı yüzeyini küçülterek gereksiz açık noktaları kapatır
 
-Özet: Bu script saldırıyı imkânsız yapmaz; uğraştırır, zaman kaybettirir, bazı noktalarda saf dışı bırakır.
+Günlük kullanımda fark edilmeyen ancak kritik öneme sahip zayıflıkları otomatik olarak giderir
 
-# 3) Kime karşı etkili?
+Özet:
+Bu script saldırıları imkânsız hâle getirme iddiasında değildir; ancak saldırganın işini ciddi şekilde zorlaştırır, zaman ve kaynak kaybettirir.
 
-Bu script bir anda “devlet seviyesi koruma” vermez ama günlük hayatta karşılaşacağın saldırganların %90’ını boğar.
+## 3) Kime karşı etkili?
 
-Durdurduğu profil:
+Bu script “devlet seviyesi” koruma sağlamaz; ancak günlük hayatta karşılaşılabilecek saldırgan profillerinin %90’ından fazlasını etkisiz hâle getirir.
 
-Hazır exploit arayan, tool çalıştırıp şans deneyen, nmap/naabu/nessus tarayıp açık kovalayanlar
+Etkili olduğu saldırgan profilleri:
 
-IPv4’ü süpüren, zayıf port arayan, exploit paketleyen otomatik botlar
+Hazır exploit arayan, tool çalıştırıp şans deneyen kişiler
 
-Lokal exploit deneyen, browser’dan içeri girmeye çalışan, USB’den payload sokmaya uğraşanlar
+nmap / naabu / nessus gibi araçlarla otomatik tarama yapanlar
 
-Discord’dan topladığı exploit’lerle sisteme girmeye çalışanlar
+IPv4 taraması yaparak açık port kovalayan botlar
 
-MAC/DNS üzerinden iz sürmeye çalışan yarım yamalak saldırganlar
+Lokal exploit deneyen, tarayıcı üzerinden sistem içine girmeye çalışanlar
 
-Kernel hardening’i geçemeyen, privilege escalation kovalayan, network pivot denemek isteyen insanlar
+USB üzerinden payload veya HID injection denemeleri yapanlar
 
-Yan servislerden dolanıp içeri yürümeyi hedefleyen çakallar
+Discord, forum ve hazır kaynaklardan toplanmış exploit’lerle saldıranlar
 
-Ağ üzerinden “ufak tefek paket oyunları” ile içeri sızacağını düşünenler
+MAC, DNS ve fingerprinting üzerinden iz sürmeye çalışan düşük seviye saldırganlar
 
-Bu düzeydeki herkesin önünü keser.
+Kernel hardening’i aşamayan, privilege escalation kovalayanlar
 
-# 4) Engelleyebildiği/zorlaştırdığı saldırılar
+Yan servisler üzerinden sisteme sızmayı hedefleyen saldırganlar
 
-Scriptin tam olarak kestiği veya ciddi şekilde zorlaştırdığı şeyler:
+Bu seviyedeki saldırganların tamamı ya durdurulur ya da etkisiz hâle getirilir.
 
-Tarayıcı istismarından sonra sistem içine yayılma girişimleri
+## 4) Engelleyebildiği / zorlaştırdığı saldırılar
 
-MAC, DNS, fingerprinting ile kimlik izi çıkarma denemeleri
+Bu script tarafından doğrudan engellenen veya ciddi şekilde zorlaştırılan saldırılar:
 
-BadUSB, HID injection, sahte klavye/mouse gibi USB saldırıları
+Tarayıcı exploit’lerinden sonra sistem içine yayılma girişimleri
 
-Dışarıdan port tarama, servis tespiti, açık servis bulma çabaları
+MAC, DNS ve fingerprinting tabanlı kimlik tespiti denemeleri
 
-Yan servisler üzerinden içeri dolanma senaryoları
+BadUSB, HID injection, sahte klavye/mouse tabanlı USB saldırıları
 
-Temel ağ tabanlı saldırılar, düşük seviye paket manipülasyonları
+Dışarıdan port tarama ve servis keşfi girişimleri
 
-Kernel parametreleri üzerinden yapılabilecek bazı zorlama yöntemleri
+Yan servisler üzerinden içeri sızma senaryoları
 
-Firejail/AppArmor bypass denemelerinin büyük kısmı
+Temel ağ tabanlı saldırılar ve düşük seviye paket manipülasyonları
 
-Kısaca ortalama saldırgan bu sisteme dokunamaz.
+Kernel parametreleri üzerinden yapılan bazı zorlama yöntemleri
 
-# 5) Kimler hâlâ sızabilir?
+Firejail ve AppArmor bypass denemelerinin büyük bir kısmı
 
-Bu script güçlü, evet.
+Sonuç:
+Ortalama bir saldırgan bu sisteme doğrudan erişim sağlayamaz.
 
-Ama fiziksel kuralları, insan kaynaklı salaklık düzeyi(sosyal mühendislik ve bilinmeyen içeriğe yetki verme) ve 0‑day piyasasını yenemez.
+## 5) Kimler hâlâ sızabilir?
+
+Bu script güçlüdür; ancak fizik kurallarını, insan hatasını ve 0-day ekosistemini ortadan kaldıramaz.
 
 Bu hardening ile içeri giremeyenler:
 
-Script‑kiddie çöplüğü
-
-Discord/YouTube hırdavatçıları
+Script-kiddie profilleri
 
 Otomatik botlar
 
-Kopyala‑yapıştır exploitçiler
+Kopyala-yapıştır exploit kullananlar
 
-“Port taradım açık yok mu”
+USB / payload denemecileri
 
-USB/Payload denemecileri
+Tarayıcı exploit’inden doğrudan shell bekleyenler
 
-Tarayıcı exploit’inden shell bekleyenler
-
-Ele geçirme umuduyla mass‑scan yapan kitle
+Mass-scan yapan saldırganlar
 
 Bu hardening ile zorlananlar:
 
 Deneyimli bireysel saldırganlar
 
-Linux privilege‑escalation uzmanları
+Linux privilege escalation bilgisi olan kişiler
 
 Network pivot ve yan servis kovalayanlar
 
-Bu hardening’i aşabilecek tek grup:
+# Bu hardening’i aşabilecek tek grup:
 
-APT düzeyi, özel exploit geliştiren gerçek profesyoneller
+APT seviyesinde, özel exploit geliştirebilen profesyonel ekipler
 
-Fiziksel erişimi olan ekipler
+Fiziksel erişimi olan saldırganlar
 
-Bu script bu seviyeye karşı “tam koruma” iddiasında olmaz — kimse olamaz.
+Bu script bu seviyeye karşı tam koruma iddiasında bulunmaz.
+Ama saldırı yüzeyini daraltır, eşiği yükseltir ve maliyeti artırır.
 
-Ama saldırı yüzeyini daraltır, açıklarını azaltır, eşiği yükseltir.
+## 6) Hangi araçları kullanıyor?
 
-# 6) Hangi araçları kullanıyor?
-
-Bu script sistemde zaten bulunan mekanizmaları sonuna kadar kullanıyor, dışarıdan çöplük taşımıyor.
+Bu script sistemde zaten bulunan mekanizmaları kullanır; harici, gereksiz bağımlılıklar eklemez.
 
 Kullanılan araçlar:
 
-UFW → basit ama etkili firewall
+UFW → Basit ama etkili firewall
 
-AppArmor → çekirdek seviyesinde confinement
+AppArmor → Kernel seviyesinde confinement
 
-Firejail → uygulama sandbox’ı
+Firejail → Uygulama sandbox’ı
 
 USBGuard → USB saldırılarına karşı kontrol katmanı
 
-macchanger → MAC rastgeleleştirme
+macchanger → MAC adresi rastgeleleştirme
 
-TLP → pil/enerji optimizasyonu (gereksiz güç tüketimi = gereksiz saldırı yüzeyi)
+TLP → Güç yönetimi ve optimizasyon
 
-Powertop → derin enerji ayarı (agresif modda)
+Powertop → Agresif enerji ayarları
 
-sysctl → ağ, kernel ve hafıza tarafında sıkı parametreler
+sysctl → Ağ, kernel ve bellek parametreleri
 
-systemd → gereksiz servis kapatma / temizleme
+systemd → Gereksiz servisleri kapatma
 
-dns ayarları → güvenli resolver, sızıntı engelleme
+DNS ayarları → Güvenli resolver ve sızıntı engelleme
 
-# 7) Script tam olarak ne yapıyor?
+## 7) Script tam olarak ne yapıyor?
 
 MAC adreslerini rastgeleleştirir
 
-Kimlik izi çıkarmayı zorlaştırır.
+DNS’i güvenli moda alır ve sızıntıları engeller
 
-Ağ tarafında iz sürmeyi ciddi anlamda baltalar.
+UFW firewall’ı varsayılan olarak deny-all inbound hâline getirir
 
-DNS’i güvenli moda çeker
+AppArmor profillerini aktif eder
 
-DNS sızıntılarını keser, takip ve yönlendirme saldırılarını zorlaştırır.
+Firejail ile tarayıcı ve kritik uygulamaları sandbox’a alır
 
-UFW firewall’ı kapı duvarına çevirir
-
-Gelen her şey engellenir, sadece çıkış izni kalır.
-
-İçeriye doğru açık port = sıfır.
-
-AppArmor’u aktif edip profilleri devreye alır
-
-Tarayıcı ve kritik uygulamalar kernel seviyesinde çitlenir.
-
-Exploit gelse bile hareket alanı dardır.
-
-Firejail ile tarayıcı ve hassas uygulamalar sandbox’a alınır
-
-Dosya sistemine, ağ kaynaklarına ve proseslere erişim kesilir.
-
-Saldırgan tarayıcıdan çıkamaz.
-
-USBGuard ile USB cihazları kontrol altına alınır
-
-HID injection, BadUSB, klavye/mouse taklidi yapan cihazlar bloklanır.
+USBGuard ile USB cihazlarını kontrol altına alır
 
 Kernel ve sysctl parametrelerini sertleştirir
 
-Ağ güvenliği, bellek rastgeleliği, TCP stack davranışı, spoofing önlemleri…
+Gereksiz servisleri kapatır
 
-Linux’un defolt ayarındaki çoğu gevşek nokta kapanır.
+Güç ve disk erişim ayarlarını optimize eder
 
-Gereksiz servisler kapatılır
+/tmp, /var/tmp, /dev/shm için noexec / nosuid uygular
 
-Arka planda duran, işlevi olmayan, ama saldırı yüzeyi açan ne varsa gömülür.
-
-Pil ve güç ayarları optimize edilir
-
-Gereksiz donanım aktiviteleri azalır → saldırı yüzeyi küçülür → stabilite artar.
-
-Disk tarafındaki bazı enerji/erişim parametreleri sıkılaştırılır
-
-Arka plan disk I/O davranışlarını iyileştirir.
-
-/tmp, /var/tmp, /dev/shm için noexec/nosuid uygulanır
-
-Bellek içi dosya sisteminden exploit çalıştırmayı zorlaştırır.
-
-Birçok tarayıcı exploit zinciri burada patlar.
-
-Önemli dosyalara izin sıkılaştırması uygulanır
-
-SUID, world-writable gibi saçmalıklar temizlenir.
+Kritik dosyalar için izin sıkılaştırması yapar
 
 # Kullanım:
 ```
@@ -208,15 +168,16 @@ cd karga-master-hardening/
 chmod +x karga-master-hardening.sh
 sudo ./karga-master-hardening.sh
 ```
+
 # Kalıcı yapmak için:
 ```
 sudo nano /etc/systemd/system/hardening.service
 ```
 
-# İçine yapıştırın:
+# Dosyanın içine yapıştırın:
 ```
 [Unit]
-Description=Karga Hardening 
+Description=Karga Hardening
 After=network.target local-fs.target
 Wants=network.target
 
@@ -228,9 +189,12 @@ RemainAfterExit=yes
 [Install]
 WantedBy=multi-user.target
 ```
-# Etkilneştirmek için:
+
+# Etkinleştirmek için:
 ```
-systemctl daemon-reload
-systemctl enable hardening.service
-systemctl start hardening.service
+sudo systemctl daemon-reload
+sudo systemctl enable hardening.service
+sudo systemctl start hardening.service
 ```
+
+
